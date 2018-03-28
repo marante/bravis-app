@@ -5,15 +5,17 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	. "github.com/marante/bravis-app/config"
-	. "github.com/marante/bravis-app/dao"
+	"github.com/marante/bravis-app/config"
+	"github.com/marante/bravis-app/dao"
+	"github.com/marante/bravis-app/models"
+	"gopkg.in/mgo.v2/bson"
 	"log"
 	"net/http"
 	"os"
 )
 
-var config = Config{}
-var dao = WorkorderDao{}
+var workorderDao = dao.WorkorderDao{}
+var dbConfig = config.Config{}
 
 // Below code simplifies and makes error handling for handlers more concrete.
 type appError struct {
@@ -34,12 +36,24 @@ func (ah appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // CreateWorkorder creates a new workorder
 func CreateWorkorder(w http.ResponseWriter, r *http.Request) *appError {
+	var order models.Workorder
+	err := json.NewDecoder(r.Body).Decode(&order)
+	if err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to decode json body.", http.StatusBadRequest}
+	}
+	order.ID = bson.NewObjectId()
+	err = workorderDao.Insert(order)
+	if err != nil {
+		fmt.Println(err)
+		return &appError{err, "There was an error when trying to insert into database.", http.StatusBadRequest}
+	}
 	return nil
 }
 
 // AllWorkorders return all worksorders from the DB.
 func AllWorkorders(w http.ResponseWriter, r *http.Request) *appError {
-	workorders, err := dao.FindAll()
+	workorders, err := workorderDao.FindAll()
 	if err != nil {
 		fmt.Println(err)
 		return &appError{err, "Error trying to retrieve records from database", http.StatusBadRequest}
@@ -51,6 +65,15 @@ func AllWorkorders(w http.ResponseWriter, r *http.Request) *appError {
 
 // FindWorkorder finds a specific workorder by ID
 func FindWorkorder(w http.ResponseWriter, r *http.Request) *appError {
+	params := mux.Vars(r)
+	id := params["id"]
+	order, err := workorderDao.FindById(id)
+	if err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to retrieve record from database", http.StatusBadRequest}
+	}
+	w.Header().Set("Content-type", "application/json")
+	err = json.NewEncoder(w).Encode(order)
 	return nil
 }
 
@@ -66,10 +89,10 @@ func DeleteWorkorder(w http.ResponseWriter, r *http.Request) *appError {
 
 // Parse the configuration file 'config.toml', and establish a connection to DB
 func init() {
-	config.Read()
-	dao.Server = config.Server
-	dao.Database = config.Database
-	dao.Connect()
+	dbConfig.Read()
+	workorderDao.Server = dbConfig.Server
+	workorderDao.Database = dbConfig.Database
+	workorderDao.Connect()
 }
 
 func main() {

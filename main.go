@@ -36,15 +36,14 @@ func (ah appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // CreateWorkorder creates a new workorder
 func CreateWorkorder(w http.ResponseWriter, r *http.Request) *appError {
+	defer r.Body.Close()
 	var order models.Workorder
-	err := json.NewDecoder(r.Body).Decode(&order)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
 		fmt.Println(err)
 		return &appError{err, "Error trying to decode json body.", http.StatusBadRequest}
 	}
 	order.ID = bson.NewObjectId()
-	err = workorderDao.Insert(order)
-	if err != nil {
+	if err := workorderDao.Insert(order); err != nil {
 		fmt.Println(err)
 		return &appError{err, "There was an error when trying to insert into database.", http.StatusBadRequest}
 	}
@@ -66,8 +65,7 @@ func AllWorkorders(w http.ResponseWriter, r *http.Request) *appError {
 // FindWorkorder finds a specific workorder by ID
 func FindWorkorder(w http.ResponseWriter, r *http.Request) *appError {
 	params := mux.Vars(r)
-	id := params["id"]
-	order, err := workorderDao.FindById(id)
+	order, err := workorderDao.FindById(params["id"])
 	if err != nil {
 		fmt.Println(err)
 		return &appError{err, "Error trying to retrieve record from database", http.StatusBadRequest}
@@ -79,11 +77,31 @@ func FindWorkorder(w http.ResponseWriter, r *http.Request) *appError {
 
 // UpdateWorkorder updates a specific workorder by ID
 func UpdateWorkorder(w http.ResponseWriter, r *http.Request) *appError {
+	defer r.Body.Close()
+	var order models.Workorder
+	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to decode json body.", http.StatusBadRequest}
+	}
+	if err := workorderDao.Update(order); err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to update workorder.", http.StatusBadRequest}
+	}
 	return nil
 }
 
 // DeleteWorkorder deletes a speicifc workorder by ID
 func DeleteWorkorder(w http.ResponseWriter, r *http.Request) *appError {
+	defer r.Body.Close()
+	var order models.Workorder
+	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to decode json body.", http.StatusBadRequest}
+	}
+	if err := workorderDao.Delete(order); err != nil {
+		fmt.Println(err)
+		return &appError{err, "Error trying to delete workorder.", http.StatusBadRequest}
+	}
 	return nil
 }
 

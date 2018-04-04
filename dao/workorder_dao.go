@@ -46,3 +46,15 @@ func (w *WorkorderDao) FindById(objNr string) (models.Workorder, error) {
 	err := db.C(WorkorderCollection).Find(bson.M{"objNr": objNr}).One(&order)
 	return order, err
 }
+
+// Update updates an entry in the db.
+func (w *WorkorderDao) Update(order models.Workorder) error {
+	err := db.C(WorkorderCollection).Update(order.ObjNr, &order)
+	return err
+}
+
+// Delete deletes the specified entry in the db.
+func (w *WorkorderDao) Delete(order models.Workorder) error {
+	err := db.C(WorkorderCollection).Remove(&order)
+	return err
+}

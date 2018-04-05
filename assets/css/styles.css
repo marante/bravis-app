@@ -1,4 +1,94 @@
-h1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 12px;
+html, body {
+    font: 15px/1.5 Arial, Helvetica, sans-serif;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Global */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: #0066ff;
+    color: #ffffff;
+    padding-top: 30px;
+    min-height: 70px;
+    margin-bottom: 50px;
+}
+
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header li {
+    float: left;
+    display: inline;
+    padding: 0 20px 0 20px;
+}
+
+header #branding {
+    float: left;
+}
+
+header #branding h1 {
+    margin: 0;
+}
+
+header nav {
+    float: right;
+    margin-top: 10px;
+}
+
+/* Sidepanel with functionality to add workorder and such */
+
+#side-panel {
+    float: left;
+    display: inline;
+    padding-left: 25px;
+    width: 250px;
+}
+
+/* Table */
+#work-orders {
+    border-collapse: collapse;
+    padding-right: 65px;
+}
+
+#work-orders td, #work-orders th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#work-orders tr:nth-child(even) {background-color: #f2f2f2;}
+
+#work-orders tr:hover {background-color: #ddd;}
+
+#work-orders th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+footer {
+    background: #0066ff;
+    color: #ffffff;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    text-align: center;
 }

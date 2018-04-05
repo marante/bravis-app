@@ -2,33 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Victor Marante">
+    <meta name="description" content="Bravis workplanner is a webpage for handling workorders.">
+    <meta name="keywords" content="bravis, workplanner, carpenting">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" media="screen" />
-    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/styles.css" media="screen" />
+    <title>Bravis Workplanner</title>
 </head>
 <body>
-    <h1>Welcome to the Bravis Workplanner</h1>
 
-    <table>
-        <thead>
-            <th>ObjNr</th>
-            <th>Adress</th>
-            <th>Description</th>
-            <th>Start</th>
-            <th>Status</th>
-            <th>Invoice</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{.ObjNr}}</td>
-                <td>{{.Adress}}</td>
-                <td>{{.Description}}</td>
-                <td>{{.Start}}</td>
-                <td>{{.Status}}</td>
-                <td>{{.Invoice}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Bravis Workplanner</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <aside id="side-panel">
+        <div class="container">
+            <ul>
+                <li><a href="index.gohtml">Skapa ny arbetsorder</a></li>
+                <li><a href="#">Arbetare</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <section id="work-orders">
+        <div class="container">
+            <table class="table table-bordered table-hover table-striped work-orders">
+                <thead class="thead-light">
+                <th scope="col">ObjNr</th>
+                <th scope="col">Address</th>
+                <th scope="col">Description</th>
+                <th scope="col">Start</th>
+                <th scope="col">Status</th>
+                <th scope="col">Invoice</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>B400</td>
+                    <td>BRORMANS FAST MARIEDALSVÄGEN 23</td>
+                    <td>HELRENOVERING AV LGH NYTT KÖK NYTT BADRUM </td>
+                    <td>FLIK 1</td>
+                    <td>PÅGÅENDE</td>
+                    <td>FAKTURERAT</td>
+                </tr>
+                <tr>
+                    <td>B400</td>
+                    <td>BRORMANS FAST MARIEDALSVÄGEN 23</td>
+                    <td>HELRENOVERING AV LGH NYTT KÖK NYTT BADRUM</td>
+                    <td>FLIK 1</td>
+                    <td>PÅGÅENDE</td>
+                    <td>FAKTURERAT</td>
+                </tr>
+                <tr>
+                    <td>B400</td>
+                    <td>BRORMANS FAST MARIEDALSVÄGEN 23</td>
+                    <td>HELRENOVERING AV LGH NYTT KÖK NYTT BADRUMasdasdasdasdsaasdasdasdasdasdadsasddasadsadsdasasd</td>
+                    <td>FLIK 1</td>
+                    <td>PÅGÅENDE</td>
+                    <td>FAKTURERAT</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <footer>
+        <p>Bravis Workplanner, &copy; 2018</p>
+    </footer>
 </body>
 </html>

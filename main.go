@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/marante/bravis-app/models"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -36,41 +34,32 @@ func init() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) *appError {
-	file, err := http.Get("http://localhost:8080/assets/css/styles.css")
-	if err != nil {
-		panic(err)
-	}
-	defer file.Body.Close()
-	data, err := ioutil.ReadAll(file.Body)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Data from the route", string(data))
+	fmt.Fprintln(w, "Yo dude! Sup?")
 	return nil
 }
 
-func Workorder(w http.ResponseWriter, r *http.Request) *appError {
-	workorders := models.Workorder{
-		ObjNr:       "B400",
-		Adress:      "Pilevallsvägen 19",
-		Description: "Vi bygger grejer",
-		Start:       "Påbörjat",
-		Status:      "IDK",
-		Invoice:     "Faktureras inte",
-		Worker: []models.Worker{
-			models.Worker{
-				Name:        "Johan",
-				HoursWorked: 45,
-				Description: "Rev vägg. Målade vägg.",
-			},
-			models.Worker{
-				Name:        "Johan",
-				HoursWorked: 45,
-				Description: "Rev vägg. Målade vägg.",
-			},
-		},
-	}
-	tpl.ExecuteTemplate(w, "index.gohtml", workorders)
+func WorkOrder(w http.ResponseWriter, r *http.Request) *appError {
+	//workOrders := models.Workorder{
+	//	ObjNr:       "B400",
+	//	Adress:      "Pilevallsvägen 19",
+	//	Description: "Vi bygger grejer",
+	//	Start:       "Påbörjat",
+	//	Status:      "IDK",
+	//	Invoice:     "Faktureras inte",
+	//	Worker: []models.Worker{
+	//		{
+	//			Name:        "Johan",
+	//			HoursWorked: 45,
+	//			Description: "Rev vägg. Målade vägg.",
+	//		},
+	//		{
+	//			Name:        "Johan",
+	//			HoursWorked: 45,
+	//			Description: "Rev vägg. Målade vägg.",
+	//		},
+	//	},
+	//}
+	tpl.ExecuteTemplate(w, "index.gohtml", nil)
 	return nil
 }
 
@@ -88,6 +77,7 @@ func main() {
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
 
 	r.Handle("/", appHandler(Index)).Methods("GET")
-	r.Handle("/workorder", appHandler(Workorder)).Methods("GET")
+	r.Handle("/workorder", appHandler(WorkOrder)).Methods("GET")
+	r.Handle("/favicon.ico", r.NotFoundHandler)
 	log.Fatal(http.ListenAndServe(":"+port, handlers.LoggingHandler(os.Stdout, r)))
 }

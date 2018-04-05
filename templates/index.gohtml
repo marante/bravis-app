@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" media="screen" />
+    <title>Index</title>
+</head>
+<body>
+    <h1>Welcome to the Bravis Workplanner</h1>
+
+    <table>
+        <thead>
+            <th>ObjNr</th>
+            <th>Adress</th>
+            <th>Description</th>
+            <th>Start</th>
+            <th>Status</th>
+            <th>Invoice</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{.ObjNr}}</td>
+                <td>{{.Adress}}</td>
+                <td>{{.Description}}</td>
+                <td>{{.Start}}</td>
+                <td>{{.Status}}</td>
+                <td>{{.Invoice}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
